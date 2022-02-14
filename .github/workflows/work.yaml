@@ -1,4 +1,4 @@
-name: transcoding
+name: downloadToOneDrive
 on:
   workflow_dispatch:
     inputs:
