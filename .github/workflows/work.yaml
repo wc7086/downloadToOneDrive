@@ -1,0 +1,50 @@
+name: transcoding
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'Download url'
+        required: true
+      downloadTool:
+        description: 'Download tool'
+        required: true
+        default: 'curl'
+        type: choice
+        options:
+          - curl
+          - wget
+          - aria2
+      downloadToolOptions:
+        description: 'Download tool options'
+        required: false
+
+jobs:
+  build:
+    runs-on: windows-2022
+    defaults:
+      run:
+        working-directory: C:\downloads
+    steps:
+    - name: Installation dependencies
+      working-directory: .\
+      run: |
+        choco install rclone
+        choco install ${{ github.event.inputs.downloadTool }}
+        mkdir -p C:\downloads
+    - name: Download
+      run: |
+        if('${{ github.event.inputs.downloadTool }}' -eq 'curl'){curl ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
+        if('${{ github.event.inputs.downloadTool }}' -eq 'wget'){wget ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
+        if('${{ github.event.inputs.downloadTool }}' -eq 'aria2'){aria2 ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
+    - name: output ISO version
+      shell: bash
+      run: |
+        nowtime=$(date +%s)
+        sha256sum * > $nowtime.sha256
+        cat $nowtime.sha256
+    - name: Upload all to OneDrive
+      run: |
+        mkdir -p $ENV:APPDATA\rclone
+        echo '${{ secrets.RCLONE_CONFIG }}' >> $ENV:APPDATA\rclone\rclone.conf
+        rclone copy * "OneDrive:/tmp" -P
+        
