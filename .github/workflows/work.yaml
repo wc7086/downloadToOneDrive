@@ -33,9 +33,9 @@ jobs:
         mkdir -p C:\downloads
     - name: Download
       run: |
+        if('${{ github.event.inputs.downloadTool }}' -eq 'aria2'){aria2c ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
         if('${{ github.event.inputs.downloadTool }}' -eq 'curl'){curl ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
         if('${{ github.event.inputs.downloadTool }}' -eq 'wget'){wget ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
-        if('${{ github.event.inputs.downloadTool }}' -eq 'aria2'){aria2 ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
     - name: output ISO version
       shell: bash
       run: |
