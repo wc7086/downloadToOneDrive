@@ -8,12 +8,12 @@ on:
       downloadTool:
         description: 'Download tool'
         required: true
-        default: 'curl'
+        default: 'aria2'
         type: choice
         options:
+          - aria2
           - curl
           - wget
-          - aria2
       downloadToolOptions:
         description: 'Download tool options'
         required: false
