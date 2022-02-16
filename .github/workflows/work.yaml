@@ -35,8 +35,7 @@ jobs:
         mkdir -p C:\downloads
     - name: Download
       run: |
-        if('${{ github.event.inputs.downloadTool }}' -eq 'aria2'){aria2c ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
-        if('${{ github.event.inputs.downloadTool }}' -ne 'aria2'){${{ github.event.inputs.downloadTool }} ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
+        if('${{ github.event.inputs.downloadTool }}' -eq 'aria2'){aria2c ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}else{${{ github.event.inputs.downloadTool }} ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
     - name: Output file sha256
       shell: bash
       run: |
