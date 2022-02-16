@@ -22,6 +22,11 @@ on:
       downloadToolUA:
         description: 'Download tool user agent'
         required: false
+      checkoutMD5:
+        description: 'checkout MD5?'
+        required: false
+        default: 'flase'
+        type: boolean
 
 jobs:
   build:
@@ -47,6 +52,7 @@ jobs:
         sha256sum * > $fileName.sha256
         cat $fileName.sha256
         sed -i 's/*//g' $fileName.sha256
+        if [[ ${{ github.event.inputs.downloadTool }} -eq 'true' ]]; then md5sum * > $fileName.md5 && cat $fileName.md5 fi
     - name: Upload all to OneDrive
       run: |
         mkdir -p $ENV:APPDATA\rclone
