@@ -38,14 +38,15 @@ jobs:
         mkdir -p C:\downloads
     - name: Download
       run: |
-        if('${{ github.event.inputs.downloadToolUA }}' -ne ''){UA='--user-agent "${{ github.event.inputs.downloadToolUA }}"'}
+        if('${{ github.event.inputs.downloadToolUA }}' -ne ''){$UA='--user-agent "${{ github.event.inputs.downloadToolUA }}"'}
         if('${{ github.event.inputs.downloadTool }}' -ne 'aria2'){${{ github.event.inputs.downloadTool }} $UA ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}else{aria2c $UA ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
     - name: Output file sha256
       shell: bash
       run: |
-        nowtime=$(date +%s)
-        sha256sum * > $nowtime.sha256
-        cat $nowtime.sha256
+        fileName=$(grep . *)
+        sha256sum * > $fileName.sha256
+        cat $fileName.sha256
+        sed -i 's/*//g' $fileName.sha256
     - name: Upload all to OneDrive
       run: |
         mkdir -p $ENV:APPDATA\rclone
