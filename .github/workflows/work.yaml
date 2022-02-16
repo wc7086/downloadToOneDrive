@@ -19,6 +19,11 @@ on:
       downloadToolOptions:
         description: 'Download tool options'
         required: false
+      checkoutSHA256:
+        description: 'Checkout SHA256'
+        required: false
+        default: 'true'
+        type: boolean
       checkoutMD5:
         description: 'Checkout MD5'
         required: false
@@ -45,10 +50,8 @@ jobs:
       shell: bash
       run: |
         fileName=$(grep . *)
-        sha256sum * > $fileName.sha256
-        cat $fileName.sha256
-        sed -i 's/*//g' $fileName.sha256
-        if [[ ${{ github.event.inputs.downloadTool }} -eq 'true' ]]; then md5sum * > $fileName.md5 && cat $fileName.md5 fi
+        if [[ ${{ github.event.inputs.downloadTool }} -eq 'true' ]]; then sha256sum * > $fileName.sha256 && cat $fileName.sha256 && sed -i 's/*//g' $fileName.sha256 fi
+        if [[ ${{ github.event.inputs.downloadTool }} -eq 'true' ]]; then md5sum * > $fileName.md5 && cat $fileName.md5 && sed -i 's/*//g' $fileName.md5 fi
     - name: Upload all to OneDrive
       run: |
         mkdir -p $ENV:APPDATA\rclone
