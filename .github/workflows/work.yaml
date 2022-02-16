@@ -19,11 +19,11 @@ on:
       downloadToolOptions:
         description: 'Download tool options'
         required: false
-      downloadToolUA:
-        description: 'Download tool user agent'
+      aria2UA:
+        description: 'aria2 user agent'
         required: false
       checkoutMD5:
-        description: 'checkout MD5?'
+        description: 'Checkout MD5'
         required: false
         default: 'flase'
         type: boolean
@@ -43,7 +43,7 @@ jobs:
         mkdir -p C:\downloads
     - name: Download
       run: |
-        if('${{ github.event.inputs.downloadToolUA }}' -ne ''){$UA='--user-agent "${{ github.event.inputs.downloadToolUA }}"'}
+        if('${{ github.event.inputs.aria2UA }}' -ne ''){$UA='-U "${{ github.event.inputs.downloadToolUA }}"'}
         if('${{ github.event.inputs.downloadTool }}' -ne 'aria2'){${{ github.event.inputs.downloadTool }} $UA ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}else{aria2c $UA ${{ github.event.inputs.downloadToolOptions }} '${{ github.event.inputs.url }}'}
     - name: Output file sha256
       shell: bash
