@@ -8,7 +8,7 @@ on:
       downloadTool:
         description: 'Download tool'
         required: true
-        default: 'wget'
+        default: 'aria2'
         type: choice
         options:
           - aria2
