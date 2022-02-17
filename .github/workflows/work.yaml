@@ -49,7 +49,7 @@ jobs:
     - name: Output file sha256
       shell: bash
       run: |
-        fileName=$(grep . *)
+        fileName=$(echo *)
         if [[ ${{ github.event.inputs.downloadTool }} -eq 'true' ]]; then sha256sum * > $fileName.sha256 && cat $fileName.sha256 && sed -i 's/*//g' $fileName.sha256 fi
         if [[ ${{ github.event.inputs.downloadTool }} -eq 'true' ]]; then md5sum * > $fileName.md5 && cat $fileName.md5 && sed -i 's/*//g' $fileName.md5 fi
     - name: Upload all to OneDrive
