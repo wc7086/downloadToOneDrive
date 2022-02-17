@@ -50,8 +50,8 @@ jobs:
       shell: bash
       run: |
         fileName=$(echo *)
-        if [[ ${{ github.event.inputs.downloadTool }} -eq 'true' ]]; then sha256sum * > $fileName.sha256; cat $fileName.sha256; sed -i 's/*//g' $fileName.sha256; fi
-        if [[ ${{ github.event.inputs.downloadTool }} -eq 'true' ]]; then md5sum * > $fileName.md5; cat $fileName.md5; sed -i 's/*//g' $fileName.md5; fi
+        if [[ ${{ github.event.inputs.checkoutSHA256 }} -eq 'true' ]]; then sha256sum * > $fileName.sha256; cat $fileName.sha256; sed -i 's/*//g' $fileName.sha256; fi
+        if [[ ${{ github.event.inputs.checkoutMD5 }} -eq 'true' ]]; then md5sum * > $fileName.md5; cat $fileName.md5; sed -i 's/*//g' $fileName.md5; fi
     - name: Upload all to OneDrive
       run: |
         mkdir -p $ENV:APPDATA\rclone
